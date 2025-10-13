@@ -55,16 +55,16 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 # -------------------------------
 # FFmpeg Check
 # -------------------------------
-def is_ffmpeg_installed():
-    try:
-        subprocess.run(["ffmpeg", "-version"], capture_output=True, check=True)
-        return True
-    except Exception:
-        return False
+# def is_ffmpeg_installed():
+#     try:
+#         subprocess.run(["ffmpeg", "-version"], capture_output=True, check=True)
+#         return True
+#     except Exception:
+#         return False
 
-FFMPEG_OK = is_ffmpeg_installed()
-if not FFMPEG_OK:
-    st.warning("⚠ FFmpeg not found. Voice input/output may be limited. Install FFmpeg and add it to PATH.")
+# FFMPEG_OK = is_ffmpeg_installed()
+# if not FFMPEG_OK:
+#     st.warning("⚠ FFmpeg not found. Voice input/output may be limited. Install FFmpeg and add it to PATH.")
 
 # -------------------------------
 # Chat History Management
@@ -421,7 +421,7 @@ for message in messages:
     with st.chat_message(role):
         st.markdown(message.get("content", ""))
 
-st.markdown("🎙 **Voice Input / Language Selection**")
+st.markdown("🎙 **Language Selection**")
 lang_options = {
     "English": "en", "Arabic": "ar", "Hindi": "hi", "Marathi": "mr", "Gujarati": "gu",
     "Bengali": "bn", "Tamil": "ta", "Telugu": "te", "Kannada": "kn", "Malayalam": "ml", "Punjabi": "pa"
