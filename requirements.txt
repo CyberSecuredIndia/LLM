@@ -1,0 +1,16 @@
+flask==3.1.2
+gunicorn==23.0.0
+langchain-core
+langchain-community
+langchain-groq
+langchain-huggingface
+sentence-transformers
+faiss-cpu
+torch --index-url https://download.pytorch.org/whl/cpu
+python-dotenv
+streamlit
+docx2txt
+whisper
+pytesseract
+Pillow
+streamlit-audiorecorder

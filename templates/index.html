@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cyber Crime Investigation Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    #chatbox {
+      width: 80%;
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      height: 400px;
+      overflow-y: auto;
+    }
+    .message {
+      margin-bottom: 15px;
+    }
+    .user {
+      font-weight: bold;
+      color: #2980b9;
+    }
+    .bot {
+      color: #27ae60;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #2980b9;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1f6391;
+    }
+    .sources {
+      margin-top: 10px;
+      font-size: 0.9em;
+      color: #555;
+    }
+    .controls {
+      width: 80%;
+      max-width: 800px;
+      margin: 20px auto;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cyber Crime Investigation Chatbot</h1>
+  <div id="chatbox"></div>
+
+  <div class="controls">
+    <textarea id="query" rows="2" placeholder="Type your question..."></textarea>
+    <textarea id="template" rows="2" placeholder="Optional: Custom prompt template. Use {context} and {question}."></textarea>
+    <div style="margin-top:10px;">
+      <button onclick="sendQuery()">Ask</button>
+      <button onclick="startVoiceInput()">🎤 Speak</button>
+    </div>
+  </div>
+
+  <script>
+    async function sendQuery() {
+      const query = document.getElementById("query").value;
+      const template = document.getElementById("template").value;
+      const chatbox = document.getElementById("chatbox");
+
+      if (!query.trim()) {
+        alert("Please enter a question.");
+        return;
+      }
+
+      chatbox.innerHTML += `<div class="message user">You: ${query}</div>`;
+
+      try {
+        const res = await fetch("/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query, template })
+        });
+        const data = await res.json();
+
+        if (data.error) {
+          chatbox.innerHTML += `<div class="message bot">Error: ${data.error}</div>`;
+        } else {
+          chatbox.innerHTML += `<div class="message bot">Bot: ${data.answer}</div>`;
+          if (data.sources.length > 0) {
+            chatbox.innerHTML += `<div class="sources"><b>Sources:</b><br>${data.sources.join("<br><br>")}</div>`;
+          }
+        }
+        chatbox.scrollTop = chatbox.scrollHeight;
+      } catch (err) {
+        chatbox.innerHTML += `<div class="message bot">Error: ${err}</div>`;
+      }
+    }
+
+    function startVoiceInput() {
+      if (!('webkitSpeechRecognition' in window)) {
+        alert("Voice recognition not supported in this browser. Try Chrome.");
+        return;
+      }
+
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("query").value = transcript;
+        sendQuery();
+      };
+
+      recognition.onerror = (event) => {
+        alert("Voice recognition error: " + event.error);
+      };
+    }
+  </script>
+</body>
+</html>
