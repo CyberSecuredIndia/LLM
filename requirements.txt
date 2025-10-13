@@ -1,16 +1,40 @@
-flask==3.1.2
-gunicorn==23.0.0
-langchain-core
-langchain-community
-langchain-groq
-langchain-huggingface
-sentence-transformers
-faiss-cpu
-torch --index-url https://download.pytorch.org/whl/cpu
-python-dotenv
+# --- Core Framework ---
 streamlit
-docx2txt
-whisper
+python-dotenv
+
+# --- LangChain Ecosystem ---
+langchain
+langchain-community
+langchain-huggingface
+langchain-groq
+
+# --- Vector Store & Embeddings ---
+faiss-cpu
+sentence-transformers
+
+# --- Text Processing & OCR ---
 pytesseract
-Pillow
-streamlit-audiorecorder
+pillow
+unstructured
+pdf2image
+pypdf
+
+# --- File Handling ---
+python-docx
+python-pptx
+
+# --- Optional Audio Dependencies (commented, enable later if needed) ---
+# pyaudio
+# gTTS
+# openai-whisper
+
+# --- General Utilities ---
+uuid
+requests
+
+# --- For Safe Deserialization & Document Parsing ---
+tqdm
+numpy
+
+# --- Prevent Tokenizer Parallelism Issues ---
+tokenizers
