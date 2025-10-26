@@ -8,6 +8,7 @@ langchain-community
 langchain-huggingface
 langchain-groq
 langchain-core
+langchain-text-splitters
 
 # --- Vector Store & Embeddings ---
 faiss-cpu
