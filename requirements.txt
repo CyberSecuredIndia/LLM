@@ -7,6 +7,7 @@ langchain
 langchain-community
 langchain-huggingface
 langchain-groq
+langchain-core
 
 # --- Vector Store & Embeddings ---
 faiss-cpu
